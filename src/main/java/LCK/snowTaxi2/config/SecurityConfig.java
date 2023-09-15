@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/email/**", "/auth/**").permitAll()
+                        .requestMatchers("/email/**", "/auth/**", "/test").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
