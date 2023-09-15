@@ -13,7 +13,7 @@ public class MailController {
     private final MailService mailService;
 
     @ResponseBody
-    @PostMapping("/auth")
+    @GetMapping("/auth")
     public String AuthMailSend(@RequestParam String mail){
 
         int number = mailService.sendAuthMail(mail);
@@ -23,7 +23,7 @@ public class MailController {
     }
 
     @ResponseBody
-    @PostMapping("/password")
+    @GetMapping("/password")
     public String PasswordMailSend(@RequestParam String mail){
 
         String str = mailService.sendPasswordMail(mail);
