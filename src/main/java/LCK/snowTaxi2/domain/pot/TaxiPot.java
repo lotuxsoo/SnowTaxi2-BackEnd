@@ -1,7 +1,7 @@
 package LCK.snowTaxi2.domain.pot;
 
+import LCK.snowTaxi2.domain.Member;
 import LCK.snowTaxi2.domain.Participation;
-import LCK.snowTaxi2.domain.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,8 +34,8 @@ public class TaxiPot {
     private int headCount;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User host;
+    @JoinColumn(name = "member_id")
+    private Member host;
 
     @OneToMany(mappedBy = "taxiPot")
     private List<Participation> participations = new ArrayList<>();

@@ -1,22 +1,29 @@
 package LCK.snowTaxi2.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Builder
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name="member")
+@Table(name="member")
 public class Member {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    @Column(name = "member_id")
+    private long id;
 
     private String email;
+
     private String password;
+
+    @OneToMany(mappedBy = "member")
+    private List<Participation> participations = new ArrayList<>();
 }

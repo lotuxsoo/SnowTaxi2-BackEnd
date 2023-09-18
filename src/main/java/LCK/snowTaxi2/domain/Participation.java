@@ -18,8 +18,8 @@ public class Participation {
     private long participationId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "taxi_pot_id")
