@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MailService {
+
     private final JavaMailSender javaMailSender;
     private static final String senderEmail= "0923ule@gmail.com";
 
@@ -72,4 +73,5 @@ public class MailService {
         javaMailSender.send(message);
         return "전송 완료";
     }
+
 }

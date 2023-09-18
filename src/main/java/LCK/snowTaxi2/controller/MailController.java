@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(path = "/email")
 public class MailController {
+
     private final MailService mailService;
 
     @ResponseBody
@@ -28,4 +29,5 @@ public class MailController {
 
         return str;
     }
+
 }

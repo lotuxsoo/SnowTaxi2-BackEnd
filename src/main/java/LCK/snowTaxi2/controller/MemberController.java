@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(path = "/auth")
 public class MemberController {
+
     private final MemberService memberService;
     private final JwtService jwtService;
 
@@ -42,4 +43,5 @@ public class MemberController {
         SecurityContextHolder.getContext().setAuthentication(null);
         return "login";
     }
+
 }

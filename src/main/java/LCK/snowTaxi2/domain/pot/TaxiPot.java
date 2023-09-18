@@ -39,4 +39,5 @@ public class TaxiPot {
 
     @OneToMany(mappedBy = "taxiPot")
     private List<Participation> participations = new ArrayList<>();
+
 }
