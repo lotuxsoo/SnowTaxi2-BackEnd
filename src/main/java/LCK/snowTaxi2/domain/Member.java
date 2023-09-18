@@ -26,4 +26,5 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Participation> participations = new ArrayList<>();
+
 }

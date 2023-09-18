@@ -6,7 +6,6 @@ import LCK.snowTaxi2.service.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(path = "/auth")
 public class MemberController {
-    @Autowired
     private final MemberService memberService;
-    @Autowired
-    JwtService jwtService;
+    private final JwtService jwtService;
 
     @PostMapping("/signUp")
     public String signUp(@RequestBody MemberRequestDto memberRequest) {
