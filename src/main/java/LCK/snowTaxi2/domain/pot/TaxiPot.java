@@ -1,12 +1,12 @@
 package LCK.snowTaxi2.domain.pot;
 
-import LCK.snowTaxi2.domain.Member;
 import LCK.snowTaxi2.domain.Participation;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +27,13 @@ public class TaxiPot {
     @Enumerated(EnumType.ORDINAL)
     private Departure departure;
 
-    @Column(columnDefinition = "DATE")
-    @JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
-    private LocalDateTime ridingTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate ridingDate;
+
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime ridingTime;
 
     private int headCount;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member host;
 
     @OneToMany(mappedBy = "taxiPot")
     private List<Participation> participations = new ArrayList<>();

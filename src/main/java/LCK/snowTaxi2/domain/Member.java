@@ -24,6 +24,10 @@ public class Member {
 
     private String password;
 
+    // 현재 참여중인 팟의 아이디 (참여중이지 않으면 0)
+    private long participatingPotId = 0;
+
+    // 참여했던 정보
     @OneToMany(mappedBy = "member")
     private List<Participation> participations = new ArrayList<>();
 
