@@ -1,11 +1,12 @@
-package LCK.snowTaxi2.dto;
+package LCK.snowTaxi2.dto.member;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
-public class MemberRequest {
+public class MemberRequestDto {
+
     private String email;
+
     private String password;
 }

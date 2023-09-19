@@ -1,15 +1,14 @@
 package LCK.snowTaxi2.controller;
 
-import LCK.snowTaxi2.service.MailService;
+import LCK.snowTaxi2.service.member.MailService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/email")
 public class MailController {
-    @Autowired
+
     private final MailService mailService;
 
     @ResponseBody
@@ -30,4 +29,5 @@ public class MailController {
 
         return str;
     }
+
 }

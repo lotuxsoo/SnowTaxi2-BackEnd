@@ -1,12 +1,11 @@
 package LCK.snowTaxi2.controller;
 
-import LCK.snowTaxi2.dto.MemberRequest;
+import LCK.snowTaxi2.dto.member.MemberRequestDto;
 import LCK.snowTaxi2.jwt.JwtService;
-import LCK.snowTaxi2.service.MemberService;
+import LCK.snowTaxi2.service.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,20 +13,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(path = "/auth")
 public class MemberController {
-    @Autowired
+
     private final MemberService memberService;
-    @Autowired
-    JwtService jwtService;
+    private final JwtService jwtService;
 
     @PostMapping("/signUp")
-    public String signUp(@RequestBody MemberRequest memberRequest) {
+    public String signUp(@RequestBody MemberRequestDto memberRequest) {
         String msg = memberService.createMember(memberRequest);
 
         return msg;
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody MemberRequest memberRequest, HttpServletResponse response){
+    public String login(@RequestBody MemberRequestDto memberRequest, HttpServletResponse response){
         // 회원 정보 조회
         boolean isMember = memberService.validationMember(memberRequest);
         if (isMember) {
@@ -45,4 +43,5 @@ public class MemberController {
         SecurityContextHolder.getContext().setAuthentication(null);
         return "login";
     }
+
 }

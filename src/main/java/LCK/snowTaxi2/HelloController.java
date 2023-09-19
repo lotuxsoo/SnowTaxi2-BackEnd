@@ -1,5 +1,7 @@
 package LCK.snowTaxi2;
 
+import LCK.snowTaxi2.domain.Member;
+import LCK.snowTaxi2.dto.ResultResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,4 +17,26 @@ public class HelloController {
         return "test";
     }
 
+    @GetMapping("/user")
+    public Member geta() {
+        Member user = Member.builder()
+                .email("aa")
+                .id(1)
+                .password("32")
+                .build();
+
+        return user;
+
+    }
+
+    @GetMapping("/result")
+    public ResultResponse g(){
+        Member user = Member.builder()
+                .email("aa")
+                .id(1)
+                .password("32")
+                .build();
+
+        return new ResultResponse (100, "회원가입이 ", user);
+    }
 }

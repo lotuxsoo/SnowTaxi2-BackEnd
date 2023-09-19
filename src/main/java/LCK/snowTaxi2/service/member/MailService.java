@@ -1,16 +1,15 @@
-package LCK.snowTaxi2.service;
+package LCK.snowTaxi2.service.member;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MailService {
-    @Autowired
+
     private final JavaMailSender javaMailSender;
     private static final String senderEmail= "0923ule@gmail.com";
 
@@ -74,4 +73,5 @@ public class MailService {
         javaMailSender.send(message);
         return "전송 완료";
     }
+
 }
