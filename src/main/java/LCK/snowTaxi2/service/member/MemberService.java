@@ -2,6 +2,7 @@ package LCK.snowTaxi2.service.member;
 
 import LCK.snowTaxi2.domain.Member;
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
+import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -43,6 +44,15 @@ public class MemberService {
         }
 
         return true;
+    }
+
+    // 현재 참여중인 택시 팟 아이디 변경
+    public void setParticipatingPotId(Long memberId, long taxiPotId) {
+        Member member = memberRepository.findById(memberId).orElseThrow( () ->
+            new NotFoundEntityException("member Id:", memberId.toString())
+        );
+        member.setParticipatingPotId(taxiPotId);
+        memberRepository.saveAndFlush(member);
     }
 
 }
