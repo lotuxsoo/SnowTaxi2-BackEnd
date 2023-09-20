@@ -14,7 +14,7 @@ public interface TaxiPotService {
     long create(String departure, LocalTime ridingTime);
 
     // 택시 루트별로 오늘 모집중인 팟 중 시간이 유효한 팟을 탑승시간을 기준으로 정렬해 리턴
-    List<TaxiPotResponseDto> getTodayPots(int departureIdx, Long memberId);
+    List<TaxiPotResponseDto> getTodayPots(String departure, Long memberId);
 
     // 현재 참여중인 팟 정보 불러오기
     TaxiPotResponseDto findParticipatingPot(Member member);

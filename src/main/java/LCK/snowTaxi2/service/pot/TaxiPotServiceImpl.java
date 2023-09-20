@@ -38,8 +38,8 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     }
 
     @Override
-    public List<TaxiPotResponseDto> getTodayPots(int departureIdx, Long memberId) {
-        List<TaxiPot> pots = taxiPotRepository.getTaxiPotByRidingDate(LocalDate.now());
+    public List<TaxiPotResponseDto> getTodayPots(String departure, Long memberId) {
+        List<TaxiPot> pots = taxiPotRepository.getTaxiPotByRidingDateAndDeparture(LocalDate.now(), Departure.valueOf(departure));
         List<TaxiPotResponseDto> response = new ArrayList<>();
 
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
