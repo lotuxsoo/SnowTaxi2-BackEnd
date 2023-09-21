@@ -1,6 +1,6 @@
 package LCK.snowTaxi2.controller;
 
-import LCK.snowTaxi2.service.member.MailService;
+import LCK.snowTaxi2.service.mail.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package LCK.snowTaxi2.service.member;
+package LCK.snowTaxi2.service.mail;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MailService {
+public class MailServiceImpl implements MailService{
 
     private final JavaMailSender javaMailSender;
     private static final String senderEmail= "0923ule@gmail.com";
 
-    public int createNumber(){
+    public int createNumber() {
         // (int) Math.random() * (최댓값-최소값+1) + 최소값
         int number = (int)(Math.random() * (90000)) + 100000;
         return number;
     }
 
-    public String createTempPassword(){
+    public String createTempPassword() {
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
                 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
@@ -34,7 +34,7 @@ public class MailService {
         return str;
     }
 
-    public int sendAuthMail(String mail){
+    public int sendAuthMail(String mail) {
         int number = createNumber();
         MimeMessage message = javaMailSender.createMimeMessage();
 
@@ -54,7 +54,7 @@ public class MailService {
         return number;
     }
 
-    public String sendPasswordMail(String mail){
+    public String sendPasswordMail(String mail) {
         String tmpPassword = createTempPassword();
         MimeMessage message = javaMailSender.createMimeMessage();
 
