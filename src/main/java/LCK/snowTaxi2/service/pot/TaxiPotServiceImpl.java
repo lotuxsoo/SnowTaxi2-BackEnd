@@ -7,6 +7,7 @@ import LCK.snowTaxi2.dto.pot.TaxiPotResponseDto;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
 import LCK.snowTaxi2.repository.TaxiPotRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public long create(String departure, LocalTime ridingTime) {
         TaxiPot taxiPot = TaxiPot.builder()
                 .headCount(0)
@@ -38,6 +40,7 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     }
 
     @Override
+    @Transactional
     public List<TaxiPotResponseDto> getTodayPots(Departure departure, Long memberId) {
         List<TaxiPot> pots = taxiPotRepository.getTaxiPotByRidingDateAndDeparture(LocalDate.now(), departure);
 
@@ -46,10 +49,10 @@ public class TaxiPotServiceImpl implements TaxiPotService {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
                 new NotFoundEntityException("member id:", memberId.toString())
         );
+        System.out.println("참여중 "+ member.getParticipatingPotId());
+        System.out.println("이메일 "+ member.getEmail());
 
         for (TaxiPot pot : pots) {
-            System.out.println(LocalTime.now().toString());
-            System.out.println(pot.getRidingTime().toString());
             if (pot.getRidingTime().isAfter(LocalTime.now().plusMinutes(3))){
                 response.add( TaxiPotResponseDto.builder()
                         .id(pot.getId())
@@ -66,11 +69,13 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     }
 
     @Override
+    @Transactional
     public TaxiPotResponseDto findParticipatingPot(Member member) {
         return null;
     }
 
     @Override
+    @Transactional
     public void changeHeadCount(int add, Long id) {
         TaxiPot taxiPot = taxiPotRepository.findById(id).orElseThrow( () ->
                 new NotFoundEntityException("taxiPot id:", id.toString())
@@ -81,6 +86,7 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         taxiPotRepository.deleteById(id);
     }
