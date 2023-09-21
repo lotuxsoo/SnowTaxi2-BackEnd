@@ -25,6 +25,7 @@ public class MemberService {
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .participatingPotId(0)
+                .nickname(dto.getNickname())
                 .build();
 
         memberRepository.save(member);

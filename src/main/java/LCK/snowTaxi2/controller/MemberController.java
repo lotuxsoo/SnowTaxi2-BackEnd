@@ -1,6 +1,7 @@
 package LCK.snowTaxi2.controller;
 
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
+import LCK.snowTaxi2.jwt.TokenInfoVo;
 import LCK.snowTaxi2.jwt.JwtService;
 import LCK.snowTaxi2.service.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +31,8 @@ public class MemberController {
         // 회원 정보 조회
         boolean isMember = memberService.validationMember(memberRequest);
         if (isMember) {
-            String access_token = jwtService.createAccessToken(1,"");
+            TokenInfoVo tokenInfoVo = jwtService.setTokenInfo(memberRequest);
+            String access_token = jwtService.createAccessToken(tokenInfoVo);
             jwtService.sendAccessToken(response, access_token);
             System.out.println("토큰을 헤더로 전송");
             return "home";
