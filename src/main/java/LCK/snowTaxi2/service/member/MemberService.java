@@ -24,6 +24,7 @@ public class MemberService {
         member = Member.builder()
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
+                .participatingPotId(0)
                 .nickname(dto.getNickname())
                 .build();
 
@@ -54,6 +55,13 @@ public class MemberService {
         );
         member.setParticipatingPotId(taxiPotId);
         memberRepository.saveAndFlush(member);
+    }
+
+    public long getParticipatingPotId(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow( () ->
+                new NotFoundEntityException("member Id:", memberId.toString())
+        );
+        return member.getParticipatingPotId();
     }
 
 }

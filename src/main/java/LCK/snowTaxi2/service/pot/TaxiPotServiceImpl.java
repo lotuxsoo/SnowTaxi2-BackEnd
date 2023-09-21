@@ -7,6 +7,7 @@ import LCK.snowTaxi2.dto.pot.TaxiPotResponseDto;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
 import LCK.snowTaxi2.repository.TaxiPotRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,11 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public long create(String departure, LocalTime ridingTime) {
         TaxiPot taxiPot = TaxiPot.builder()
                 .headCount(0)
-                .departure(Departure.NAMYOUNG)
+                .departure(Departure.valueOf(departure))
                 .ridingDate(LocalDate.now())
                 .ridingTime(ridingTime)
                 .build();
@@ -38,8 +40,10 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     }
 
     @Override
-    public List<TaxiPotResponseDto> getTodayPots(int departureIdx, Long memberId) {
-        List<TaxiPot> pots = taxiPotRepository.getTaxiPotByRidingDate(LocalDate.now());
+    @Transactional
+    public List<TaxiPotResponseDto> getTodayPots(Departure departure, Long memberId) {
+        List<TaxiPot> pots = taxiPotRepository.getTaxiPotByRidingDateAndDeparture(LocalDate.now(), departure);
+
         List<TaxiPotResponseDto> response = new ArrayList<>();
 
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
@@ -47,7 +51,7 @@ public class TaxiPotServiceImpl implements TaxiPotService {
         );
 
         for (TaxiPot pot : pots) {
-            if (pot.getRidingTime().isBefore(LocalTime.now().minusMinutes(3))){
+            if (pot.getRidingTime().isAfter(LocalTime.now().plusMinutes(3))){
                 response.add( TaxiPotResponseDto.builder()
                         .id(pot.getId())
                         .headCount(pot.getHeadCount())
@@ -63,11 +67,13 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     }
 
     @Override
+    @Transactional
     public TaxiPotResponseDto findParticipatingPot(Member member) {
         return null;
     }
 
     @Override
+    @Transactional
     public void changeHeadCount(int add, Long id) {
         TaxiPot taxiPot = taxiPotRepository.findById(id).orElseThrow( () ->
                 new NotFoundEntityException("taxiPot id:", id.toString())
@@ -78,6 +84,7 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         taxiPotRepository.deleteById(id);
     }

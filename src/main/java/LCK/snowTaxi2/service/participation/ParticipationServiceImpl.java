@@ -9,6 +9,7 @@ import LCK.snowTaxi2.repository.ParticipationRepository;
 import LCK.snowTaxi2.repository.TaxiPotRepository;
 import LCK.snowTaxi2.service.member.MemberService;
 import LCK.snowTaxi2.service.pot.TaxiPotService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class ParticipationServiceImpl implements ParticipationService {
     private final MemberService memberService;
 
     @Override
+    @Transactional
     public boolean create(Long memberId, Long taxiPotId) {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
                 new NotFoundEntityException("member id:", memberId.toString())
@@ -49,6 +51,7 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
+    @Transactional
     public void delete(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
                 new NotFoundEntityException("member id:", memberId.toString())
