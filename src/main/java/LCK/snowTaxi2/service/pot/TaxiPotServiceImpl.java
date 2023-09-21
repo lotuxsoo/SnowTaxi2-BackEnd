@@ -27,7 +27,7 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     public long create(String departure, LocalTime ridingTime) {
         TaxiPot taxiPot = TaxiPot.builder()
                 .headCount(0)
-                .departure(Departure.NAMYOUNG)
+                .departure(Departure.valueOf(departure))
                 .ridingDate(LocalDate.now())
                 .ridingTime(ridingTime)
                 .build();
@@ -38,8 +38,9 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     }
 
     @Override
-    public List<TaxiPotResponseDto> getTodayPots(String departure, Long memberId) {
-        List<TaxiPot> pots = taxiPotRepository.getTaxiPotByRidingDateAndDeparture(LocalDate.now(), Departure.valueOf(departure));
+    public List<TaxiPotResponseDto> getTodayPots(Departure departure, Long memberId) {
+        List<TaxiPot> pots = taxiPotRepository.getTaxiPotByRidingDateAndDeparture(LocalDate.now(), departure);
+
         List<TaxiPotResponseDto> response = new ArrayList<>();
 
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
@@ -47,7 +48,9 @@ public class TaxiPotServiceImpl implements TaxiPotService {
         );
 
         for (TaxiPot pot : pots) {
-            if (pot.getRidingTime().isBefore(LocalTime.now().minusMinutes(3))){
+            System.out.println(LocalTime.now().toString());
+            System.out.println(pot.getRidingTime().toString());
+            if (pot.getRidingTime().isAfter(LocalTime.now().plusMinutes(3))){
                 response.add( TaxiPotResponseDto.builder()
                         .id(pot.getId())
                         .headCount(pot.getHeadCount())

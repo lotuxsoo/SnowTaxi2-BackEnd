@@ -1,6 +1,7 @@
 package LCK.snowTaxi2.controller;
 
 import LCK.snowTaxi2.domain.Participation;
+import LCK.snowTaxi2.domain.pot.Departure;
 import LCK.snowTaxi2.dto.ResultResponse;
 import LCK.snowTaxi2.dto.pot.TaxiPotRequestDto;
 import LCK.snowTaxi2.dto.pot.TaxiPotResponseDto;
@@ -49,7 +50,7 @@ public class TaxiPotController {
         String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
         TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
 
-        List<TaxiPotResponseDto> response =  taxiPotService.getTodayPots(departure, tokenInfoVo.getMemberId());
+        List<TaxiPotResponseDto> response =  taxiPotService.getTodayPots(Departure.valueOf(departure), tokenInfoVo.getMemberId());
 
         return ResultResponse.builder()
                 .code(HttpStatus.OK.value())
