@@ -1,5 +1,7 @@
 package LCK.snowTaxi2.jwt;
 
+import LCK.snowTaxi2.domain.Member;
+import LCK.snowTaxi2.dto.member.MemberRequestDto;
 import LCK.snowTaxi2.repository.MemberRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -37,13 +39,13 @@ public class JwtService {
 
     private final MemberRepository memberRepository;
 
-    public String createAccessToken(long memberId, String nickname) {
+    public String createAccessToken(TokenInfoVo tokenInfoVo) {
         Date now = new Date();
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-                .withClaim(MemberID_CLAIM, memberId)
-                .withClaim(NICKNAME_CLAIM, nickname)
+                .withClaim(MemberID_CLAIM, tokenInfoVo.getMemberId())
+                .withClaim(NICKNAME_CLAIM, tokenInfoVo.getNickname())
                 .sign(Algorithm.HMAC512(secretKey)); // HMAC512 알고리즘 사용, application-jwt.yml에서 지정한 secret 키로 암호화
     }
 
@@ -72,6 +74,11 @@ public class JwtService {
         Long memberId = decodedJWT.getClaim(MemberID_CLAIM).asLong();
         String nickname = decodedJWT.getClaim(NICKNAME_CLAIM).asString();
         return new TokenInfoVo(memberId, nickname);
+    }
+
+    public TokenInfoVo setTokenInfo(MemberRequestDto memberRequestDto) {
+        Member member = memberRepository.findByEmail(memberRequestDto.getEmail());
+        return new TokenInfoVo(member.getId(), member.getNickname());
     }
 
     public Optional<Long> extractInfo(String accessToken) {

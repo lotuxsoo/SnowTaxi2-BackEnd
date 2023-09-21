@@ -21,7 +21,7 @@ public class Member {
     private long id;
 
     private String email;
-
+    private String nickname;
     private String password;
 
     // 현재 참여중인 팟의 아이디 (참여중이지 않으면 0)
