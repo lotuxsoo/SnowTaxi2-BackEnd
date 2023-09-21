@@ -49,8 +49,6 @@ public class TaxiPotServiceImpl implements TaxiPotService {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
                 new NotFoundEntityException("member id:", memberId.toString())
         );
-        System.out.println("참여중 "+ member.getParticipatingPotId());
-        System.out.println("이메일 "+ member.getEmail());
 
         for (TaxiPot pot : pots) {
             if (pot.getRidingTime().isAfter(LocalTime.now().plusMinutes(3))){
