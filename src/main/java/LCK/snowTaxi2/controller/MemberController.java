@@ -71,8 +71,8 @@ public class MemberController {
 
 
     @PostMapping("/nicknameCheck")
-    public ResultResponse nicknameCheck(@RequestParam String mail) {
-        if (memberService.checkNickname(mail)) {
+    public ResultResponse nicknameCheck(@RequestParam String nickname) {
+        if (memberService.checkNickname(nickname)) {
             return ResultResponse.builder()
                     .code(HttpStatus.CONFLICT.value())
                     .message("닉네임이 중복됩니다.")
