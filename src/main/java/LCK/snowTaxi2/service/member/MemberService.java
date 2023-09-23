@@ -8,4 +8,5 @@ public interface MemberService {
     public int createMember(MemberRequestDto dto);
     public int validationMember(MemberRequestDto dto);
     public void setParticipatingPotId(Long memberId, long taxiPotId);
+    public long getParticipatingPotId(Long memberId);
 }

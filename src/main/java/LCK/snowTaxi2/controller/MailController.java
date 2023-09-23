@@ -37,4 +37,5 @@ public class MailController {
                 .message("변경된 비밀 번호를 메일로 보냈습니다.")
                 .build();
     }
+
 }

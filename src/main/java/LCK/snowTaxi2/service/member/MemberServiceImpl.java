@@ -57,4 +57,11 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.saveAndFlush(member);
     }
 
+    public long getParticipatingPotId(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow( () ->
+                new NotFoundEntityException("member Id:", memberId.toString())
+        );
+        return member.getParticipatingPotId();
+    }
+
 }
