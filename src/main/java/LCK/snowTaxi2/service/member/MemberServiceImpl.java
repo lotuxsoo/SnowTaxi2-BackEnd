@@ -5,6 +5,7 @@ import LCK.snowTaxi2.dto.member.MemberRequestDto;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public String createMember(MemberRequestDto dto) {
+    public int createMember(MemberRequestDto dto) {
         Member member = memberRepository.findByEmail(dto.getEmail());
+
+        // 해당 이메일의 유저가 존재합니다.
         if (member != null) {
-            return "해당 이메일의 유저가 존재합니다.";
+            return HttpStatus.CONFLICT.value();
         }
 
         member = Member.builder()
@@ -26,31 +29,29 @@ public class MemberServiceImpl implements MemberService {
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .nickname(dto.getNickname())
                 .build();
-
         memberRepository.save(member);
-        return "환영합니다!";
+        return HttpStatus.OK.value();
     }
 
-    public boolean validationMember(MemberRequestDto dto) {
+    public int validationMember(MemberRequestDto dto) {
         Member loginMember = memberRepository.findByEmail(dto.getEmail());
 
+        // 해당 이메일의 유저가 존재하지 않습니다.
         if(loginMember==null) {
-            System.out.println("해당 이메일의 유저가 존재하지 않습니다.");
-            return false;
+            HttpStatus.NOT_FOUND.value();
         }
-
+        // 비밀번호가 일치하지 않습니다.
         if(!bCryptPasswordEncoder.matches(dto.getPassword(), loginMember.getPassword())) {
-            System.out.println("비밀번호가 일치하지 않습니다.");
-            return false;
+            return HttpStatus.CONFLICT.value();
         }
 
-        return true;
+        return HttpStatus.OK.value();
     }
 
     // 현재 참여중인 택시 팟 아이디 변경
     public void setParticipatingPotId(Long memberId, long taxiPotId) {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
-            new NotFoundEntityException("member Id:", memberId.toString())
+                new NotFoundEntityException("member Id:", memberId.toString())
         );
         member.setParticipatingPotId(taxiPotId);
         memberRepository.saveAndFlush(member);
