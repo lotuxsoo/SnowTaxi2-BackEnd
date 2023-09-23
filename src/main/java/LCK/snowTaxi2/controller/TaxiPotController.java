@@ -47,7 +47,7 @@ public class TaxiPotController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = "*")
+//    @CrossOrigin(origins = "*")
     public ResultResponse getValidPots(HttpServletRequest request, @RequestParam String departure) {
         String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
         TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
