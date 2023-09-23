@@ -40,7 +40,7 @@ public class MailController {
 
         if (!memberService.checkEmail(mail)) {
             return ResultResponse.builder()
-                    .code(HttpStatus.CONFLICT.value())
+                    .code(HttpStatus.NOT_FOUND.value())
                     .message("해당 이메일의 회원이 존재하지 않습니다.")
                     .build();
         }
