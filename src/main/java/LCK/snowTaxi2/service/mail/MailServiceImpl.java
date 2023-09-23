@@ -1,9 +1,12 @@
 package LCK.snowTaxi2.service.mail;
 
+import LCK.snowTaxi2.domain.Member;
+import LCK.snowTaxi2.repository.MemberRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +14,8 @@ import org.springframework.stereotype.Service;
 public class MailServiceImpl implements MailService{
 
     private final JavaMailSender javaMailSender;
+    private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private static final String senderEmail= "0923ule@gmail.com";
 
     public int createNumber() {
@@ -59,6 +64,10 @@ public class MailServiceImpl implements MailService{
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
+            Member member = memberRepository.findByEmail(mail);
+            member.setPassword(bCryptPasswordEncoder.encode(tmpPassword));
+            memberRepository.saveAndFlush(member);
+
             message.setFrom(senderEmail);
             message.setRecipients(MimeMessage.RecipientType.TO, mail);
             message.setSubject("[SNOWTAXI] 비밀번호 재설정");
