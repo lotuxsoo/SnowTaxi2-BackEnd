@@ -54,7 +54,7 @@ public class MailServiceImpl implements MailService{
         return number;
     }
 
-    public String sendPasswordMail(String mail) {
+    public void sendPasswordMail(String mail) {
         String tmpPassword = createTempPassword();
         MimeMessage message = javaMailSender.createMimeMessage();
 
@@ -71,7 +71,6 @@ public class MailServiceImpl implements MailService{
             e.printStackTrace();
         }
         javaMailSender.send(message);
-        return "전송 완료";
     }
 
 }

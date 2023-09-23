@@ -22,12 +22,19 @@ public class MemberController {
 
     @PostMapping("/signUp")
     public ResultResponse signUp(@RequestBody MemberRequestDto memberRequest) {
-        int status = memberService.createMember(memberRequest);
-        String msg = (status == HttpStatus.OK.value() ? "회원가입에 성공했습니다." : "해당 이메일의 유저가 존재합니다.");
-        return ResultResponse.builder()
-                .code(status)
-                .message(msg)
-                .build();
+        if (!memberService.checkEmail(memberRequest.getEmail()) && !memberService.checkNickname(memberRequest.getNickname())) {
+            memberService.createMember(memberRequest);
+            return ResultResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("회원가입에 성공했습니다.")
+                    .build();
+        }
+        else {
+            return ResultResponse.builder()
+                    .code(HttpStatus.CONFLICT.value())
+                    .message("회원가입에 실패했습니다.")
+                    .build();
+        }
     }
 
     @PostMapping("/login")
@@ -36,7 +43,7 @@ public class MemberController {
         int status = memberService.validationMember(memberRequest);
         // 로그인 실패
         if (status != HttpStatus.OK.value()) {
-            String msg = (status == HttpStatus.NOT_FOUND.value() ? "해당 이메일의 유저가 존재하지 않습니다." : "비밀번호가 일치하지 않습니다.");
+            String msg = (status == HttpStatus.NOT_FOUND.value() ? "해당 이메일의 회원이 존재하지 않습니다." : "비밀번호가 일치하지 않습니다.");
             return ResultResponse.builder()
                     .code(status)
                     .message(msg)
@@ -62,4 +69,20 @@ public class MemberController {
                 .build();
     }
 
+
+    @PostMapping("/nicknameCheck")
+    public ResultResponse nicknameCheck(@RequestParam String mail) {
+        if (memberService.checkNickname(mail)) {
+            return ResultResponse.builder()
+                    .code(HttpStatus.CONFLICT.value())
+                    .message("닉네임이 중복됩니다.")
+                    .build();
+        }
+        else {
+            return ResultResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .message("사용 가능한 닉네임입니다.")
+                    .build();
+        }
+    }
 }

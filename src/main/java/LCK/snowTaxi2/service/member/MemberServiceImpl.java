@@ -16,21 +16,13 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public int createMember(MemberRequestDto dto) {
-        Member member = memberRepository.findByEmail(dto.getEmail());
-
-        // 해당 이메일의 유저가 존재합니다.
-        if (member != null) {
-            return HttpStatus.CONFLICT.value();
-        }
-
-        member = Member.builder()
+    public void createMember(MemberRequestDto dto) {
+        Member member = Member.builder()
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .nickname(dto.getNickname())
                 .build();
         memberRepository.save(member);
-        return HttpStatus.OK.value();
     }
 
     public int validationMember(MemberRequestDto dto) {
@@ -62,6 +54,18 @@ public class MemberServiceImpl implements MemberService {
                 new NotFoundEntityException("member Id:", memberId.toString())
         );
         return member.getParticipatingPotId();
+    }
+
+    public boolean checkNickname(String nickname) {
+        Member member = memberRepository.findByNickname(nickname);
+        if (member == null) return false;
+        else return true;
+    }
+
+    public boolean checkEmail(String email) {
+        Member member = memberRepository.findByEmail(email);
+        if (member == null) return false;
+        else  return true;
     }
 
 }
