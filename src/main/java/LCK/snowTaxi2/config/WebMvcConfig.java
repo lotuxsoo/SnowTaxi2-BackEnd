@@ -14,8 +14,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000", "*")
                 .allowedMethods("*")
-                .allowedHeaders("*", "Origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization")
-                .exposedHeaders("Authorization", "Access-Control-Allow-Origin", "", "*");
+                .allowedHeaders("*")
+                .exposedHeaders("*");
     }
 
 }
