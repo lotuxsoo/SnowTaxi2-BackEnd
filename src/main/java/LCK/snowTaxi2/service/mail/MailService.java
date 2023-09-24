@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MailService {
     public int sendAuthMail(String mail);
-    public String sendPasswordMail(String mail);
+    public void sendPasswordMail(String mail);
 }
