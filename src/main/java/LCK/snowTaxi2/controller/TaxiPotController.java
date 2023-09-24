@@ -1,6 +1,5 @@
 package LCK.snowTaxi2.controller;
 
-import LCK.snowTaxi2.domain.Participation;
 import LCK.snowTaxi2.domain.pot.Departure;
 import LCK.snowTaxi2.dto.ResultResponse;
 import LCK.snowTaxi2.dto.pot.TaxiPotRequestDto;
@@ -27,7 +26,7 @@ public class TaxiPotController {
     private final MemberService memberService;
     private final JwtService jwtService;
 
-    @PostMapping
+    @PostMapping("/new")
     public ResultResponse create(HttpServletRequest request, @RequestBody TaxiPotRequestDto requestDto) {
         String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
         TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
@@ -46,12 +45,23 @@ public class TaxiPotController {
                 .build();
     }
 
-    @GetMapping
+    @GetMapping("/valid")
     public ResultResponse getValidPots(HttpServletRequest request, @RequestParam String departure) {
         String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
         TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
 
-        List<TaxiPotResponseDto> response =  taxiPotService.getTodayPots(Departure.valueOf(departure), tokenInfoVo.getMemberId());
+        List<TaxiPotResponseDto> response =  taxiPotService.getTodayValidPots(Departure.valueOf(departure), tokenInfoVo.getMemberId());
+
+        return ResultResponse.builder()
+                .code(HttpStatus.OK.value())
+                .message("탑승 가능한 pot 조회")
+                .data(response)
+                .build();
+    }
+
+    @GetMapping("/default")
+    public ResultResponse getPots(@RequestParam String departure) {
+        List<TaxiPotResponseDto> response =  taxiPotService.getTodayPots(Departure.valueOf(departure));
 
         return ResultResponse.builder()
                 .code(HttpStatus.OK.value())
