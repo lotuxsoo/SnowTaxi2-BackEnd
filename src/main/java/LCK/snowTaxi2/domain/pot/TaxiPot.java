@@ -1,6 +1,8 @@
 package LCK.snowTaxi2.domain.pot;
 
 import LCK.snowTaxi2.domain.Participation;
+import LCK.snowTaxi2.domain.chat.ChatMessage;
+import LCK.snowTaxi2.domain.chat.ChatRoom;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,5 +39,9 @@ public class TaxiPot {
 
     @OneToMany(mappedBy = "taxiPot")
     private List<Participation> participations = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoom chatRoom;
 
 }
