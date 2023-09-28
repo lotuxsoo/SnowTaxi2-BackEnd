@@ -14,11 +14,10 @@ public class MailController {
     private final MailService mailService;
     private final MemberService memberService;
 
-    @ResponseBody
     @GetMapping("/auth")
     public ResultResponse AuthMailSend(@RequestParam String mail) {
 
-        if (memberService.checkEmail(mail)) {
+        if (memberService.isValidEmail(mail)) {
             return ResultResponse.builder()
                     .code(HttpStatus.CONFLICT.value())
                     .message("해당 이메일의 회원이 존재합니다.")
@@ -26,7 +25,7 @@ public class MailController {
         }
 
         int number = mailService.sendAuthMail(mail);
-        String num = "" + number;
+        String num = String.valueOf(number);
         return ResultResponse.builder()
                 .code(HttpStatus.OK.value())
                 .message("인증 번호를 메일로 보냈습니다.")
@@ -34,11 +33,10 @@ public class MailController {
                 .build();
     }
 
-    @ResponseBody
     @GetMapping("/password")
     public ResultResponse PasswordMailSend (@RequestParam String mail){
 
-        if (!memberService.checkEmail(mail)) {
+        if (!memberService.isValidEmail(mail)) {
             return ResultResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())
                     .message("해당 이메일의 회원이 존재하지 않습니다.")

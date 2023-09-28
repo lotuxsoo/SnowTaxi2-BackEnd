@@ -1,6 +1,7 @@
 package LCK.snowTaxi2.service.member;
 
 import LCK.snowTaxi2.domain.Member;
+import LCK.snowTaxi2.dto.member.LoginResponseDto;
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
@@ -16,6 +17,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Override
     public void createMember(MemberRequestDto dto) {
         Member member = Member.builder()
                 .email(dto.getEmail())
@@ -25,22 +27,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
-    public int validationMember(MemberRequestDto dto) {
-        Member loginMember = memberRepository.findByEmail(dto.getEmail());
-
-        // 해당 이메일의 유저가 존재하지 않습니다.
-        if(loginMember==null) {
-            HttpStatus.NOT_FOUND.value();
-        }
-        // 비밀번호가 일치하지 않습니다.
-        if(!bCryptPasswordEncoder.matches(dto.getPassword(), loginMember.getPassword())) {
-            return HttpStatus.CONFLICT.value();
-        }
-
-        return HttpStatus.OK.value();
-    }
-
-    // 현재 참여중인 택시 팟 아이디 변경
+    @Override
     public void setParticipatingPotId(Long memberId, long taxiPotId) {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
                 new NotFoundEntityException("member Id:", memberId.toString())
@@ -49,6 +36,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.saveAndFlush(member);
     }
 
+    @Override
     public long getParticipatingPotId(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
                 new NotFoundEntityException("member Id:", memberId.toString())
@@ -56,16 +44,40 @@ public class MemberServiceImpl implements MemberService {
         return member.getParticipatingPotId();
     }
 
-    public boolean checkNickname(String nickname) {
-        Member member = memberRepository.findByNickname(nickname);
-        if (member == null) return false;
-        else return true;
+    @Override
+    public LoginResponseDto findMember(MemberRequestDto dto) {
+        Member member = memberRepository.findByEmail(dto.getEmail());
+        String message;
+        int status;
+
+        if (member == null) {
+            status = HttpStatus.NOT_FOUND.value();
+            message = "해당 이메일의 회원이 존재하지 않습니다.";
+        } else if (!bCryptPasswordEncoder.matches(dto.getPassword(), member.getPassword())) {
+            status = HttpStatus.CONFLICT.value();
+            message = "비밀번호가 일치하지 않습니다.";
+        } else {
+            status = HttpStatus.OK.value();
+            message = "로그인 성공하였습니다.";
+        }
+
+        return LoginResponseDto.builder()
+                .loginStatus(status)
+                .message(message)
+                .member(member)
+                .build();
     }
 
-    public boolean checkEmail(String email) {
+    @Override
+    public boolean isValidNickname(String nickname) {
+        Member member = memberRepository.findByNickname(nickname);
+        return member == null;
+    }
+
+    @Override
+    public boolean isValidEmail(String email) {
         Member member = memberRepository.findByEmail(email);
-        if (member == null) return false;
-        else  return true;
+        return member == null;
     }
 
 }
