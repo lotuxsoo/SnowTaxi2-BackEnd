@@ -69,15 +69,22 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean isValidNickname(String nickname) {
+    public boolean isMemberNickname(String nickname) {
         Member member = memberRepository.findByNickname(nickname);
-        return member == null;
+        return !(member == null);
     }
 
     @Override
-    public boolean isValidEmail(String email) {
+    public boolean isMemberEmail(String email) {
         Member member = memberRepository.findByEmail(email);
-        return member == null;
+        return !(member == null);
+    }
+
+    @Override
+    public void changePassword(MemberRequestDto dto) {
+        Member member = memberRepository.findByEmail(dto.getEmail());
+        member.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
+        memberRepository.saveAndFlush(member);
     }
 
 }

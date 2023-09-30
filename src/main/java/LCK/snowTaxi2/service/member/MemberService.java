@@ -15,15 +15,18 @@ public interface MemberService {
     public LoginResponseDto findMember(MemberRequestDto dto);
 
     // 유효한 닉네임인지 확인
-    public boolean isValidNickname(String nickname);
+    public boolean isMemberNickname(String nickname);
 
     // 유효한 이메일인지 확인 (이미 가입했는지)
-    public boolean isValidEmail(String email);
+    public boolean isMemberEmail(String email);
 
     // 참여중인 팟 아이디 변경
     public void setParticipatingPotId(Long memberId, long taxiPotId);
 
     // 참여중인 팟 아이디 조회
     public long getParticipatingPotId(Long memberId);
+
+    // 비밀번호 변경
+    public void changePassword(MemberRequestDto dto);
 
 }

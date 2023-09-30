@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                        .requestMatchers("/auth/changePassword").authenticated()
                         .requestMatchers("/email/**", "/auth/**", "/test", "/pot/default").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "*").permitAll()
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()

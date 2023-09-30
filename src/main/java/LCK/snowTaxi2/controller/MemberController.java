@@ -25,7 +25,7 @@ public class MemberController {
 
     @PostMapping("/signUp")
     public ResultResponse signUp(@RequestBody MemberRequestDto memberRequest) {
-        if (memberService.isValidEmail(memberRequest.getEmail())) {
+        if (!memberService.isMemberEmail(memberRequest.getEmail())) {
             memberService.createMember(memberRequest);
             return ResultResponse.builder()
                     .code(HttpStatus.OK.value())
@@ -80,7 +80,7 @@ public class MemberController {
 
     @PostMapping("/nicknameCheck")
     public ResultResponse nicknameCheck(@RequestParam String nickname) {
-        if (memberService.isValidNickname(nickname)) {
+        if (!memberService.isMemberNickname(nickname)) {
             return ResultResponse.builder()
                     .code(HttpStatus.OK.value())
                     .message("사용 가능한 닉네임입니다.")
@@ -92,6 +92,21 @@ public class MemberController {
                     .message("닉네임이 중복됩니다.")
                     .build();
         }
+    }
+
+    @PostMapping("/changePassword")
+    public ResultResponse changePassword(@RequestBody MemberRequestDto memberRequest) {
+        if (!memberService.isMemberEmail(memberRequest.getEmail())) {
+            return ResultResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message("회원이 아닙니다.")
+                    .build();
+        }
+        memberService.changePassword(memberRequest);
+        return ResultResponse.builder()
+                .code(HttpStatus.OK.value())
+                .message("비밀번호가 변경되었습니다.")
+                .build();
     }
 
 }
