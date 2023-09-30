@@ -17,7 +17,7 @@ public class MailController {
     @GetMapping("/auth")
     public ResultResponse AuthMailSend(@RequestParam String mail) {
 
-        if (memberService.isValidEmail(mail)) {
+        if (!memberService.isValidEmail(mail)) {
             return ResultResponse.builder()
                     .code(HttpStatus.CONFLICT.value())
                     .message("해당 이메일의 회원이 존재합니다.")
@@ -36,7 +36,7 @@ public class MailController {
     @GetMapping("/password")
     public ResultResponse PasswordMailSend (@RequestParam String mail){
 
-        if (!memberService.isValidEmail(mail)) {
+        if (memberService.isValidEmail(mail)) {
             return ResultResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())
                     .message("해당 이메일의 회원이 존재하지 않습니다.")
