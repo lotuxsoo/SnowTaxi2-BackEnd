@@ -32,16 +32,17 @@ public class TaxiPotController {
         TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
 
         boolean canCreate = (memberService.getParticipatingPotId(tokenInfoVo.getMemberId()) == 0);
+        long potId = 0;
 
         if (canCreate) {
-            long potId = taxiPotService.create(requestDto.getDeparture(), requestDto.getRidingTime());
+            potId = taxiPotService.create(requestDto.getDeparture(), requestDto.getRidingTime());
             participationService.create(tokenInfoVo.getMemberId(), potId);
         }
 
         return ResultResponse.builder()
                 .code(HttpStatus.OK.value())
                 .message("pot 생성")
-                .data(canCreate)
+                .data(potId)
                 .build();
     }
 
