@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MessageType {
 
-    ENTER,
+    IN,
     OUT,
     TALK
 

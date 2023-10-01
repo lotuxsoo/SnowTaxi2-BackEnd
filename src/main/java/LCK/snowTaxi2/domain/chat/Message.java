@@ -13,19 +13,21 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "chat_message")
-public class ChatMessage {
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_message_id")
-    private Long id;
+    private long id;
 
     @Enumerated(EnumType.ORDINAL)
     private MessageType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="taxi_pot_id")
-    private ChatRoom chatRoom;
+    @JoinColumn(name = "taxi_pot_id")
+    private TaxiPot taxiPot;
+
+    private long roomId;
 
     private String sender;
 

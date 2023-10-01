@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/email/**", "/auth/**", "/test").permitAll()
+                        .requestMatchers("/email/**", "/auth/**", "/test", "/wschat/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "*").permitAll()
                         .anyRequest().authenticated()
                 )

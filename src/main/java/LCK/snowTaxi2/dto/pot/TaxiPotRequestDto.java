@@ -6,6 +6,9 @@ import java.time.LocalTime;
 
 @Getter
 public class TaxiPotRequestDto {
+
     private String departure;
+
     private LocalTime ridingTime;
+
 }
