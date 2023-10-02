@@ -1,6 +1,7 @@
 package LCK.snowTaxi2.domain.chat;
 
 import LCK.snowTaxi2.domain.pot.TaxiPot;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,12 +28,11 @@ public class Message {
     @JoinColumn(name = "taxi_pot_id")
     private TaxiPot taxiPot;
 
-    private long roomId;
-
     private String sender;
 
     private String content;
 
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime sentTime;
 
 }
