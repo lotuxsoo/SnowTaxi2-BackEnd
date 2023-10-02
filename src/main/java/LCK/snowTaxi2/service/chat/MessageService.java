@@ -67,6 +67,7 @@ public class MessageService {
                     .sentTime(message.getSentTime())
                     .content(message.getContent())
                     .sender(message.getSender())
+                    .type(message.getType())
                     .build()
             );
         }

@@ -28,8 +28,8 @@ public class MessageController {
         messageService.send(messageRequestDto);
     }
 
-    @GetMapping("/chatroom/{roomId}")
-    public ResultResponse getChats(@PathVariable long roomId) {
+    @GetMapping("/chatroom")
+    public ResultResponse getChats(@RequestParam long roomId) {
         List<MessageResponseDto> responseDto = messageService.getChats(roomId);
 
         return ResultResponse.builder()
