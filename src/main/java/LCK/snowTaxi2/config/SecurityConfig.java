@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers("/auth/changePassword").authenticated()
-                        .requestMatchers("/email/**", "/auth/**", "/test", "/pot/default").permitAll()
+                        .requestMatchers("/email/**", "/auth/**", "/test", "/pot/default", "/wschat/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "*").permitAll()
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .anyRequest().authenticated()

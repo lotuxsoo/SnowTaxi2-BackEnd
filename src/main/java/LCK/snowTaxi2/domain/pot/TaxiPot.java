@@ -1,6 +1,7 @@
 package LCK.snowTaxi2.domain.pot;
 
 import LCK.snowTaxi2.domain.Participation;
+import LCK.snowTaxi2.domain.chat.Message;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,5 +38,8 @@ public class TaxiPot {
 
     @OneToMany(mappedBy = "taxiPot")
     private List<Participation> participations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "taxiPot", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> chatMessages = new ArrayList<>();
 
 }
