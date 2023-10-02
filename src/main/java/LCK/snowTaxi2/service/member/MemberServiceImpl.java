@@ -117,4 +117,14 @@ public class MemberServiceImpl implements MemberService {
         return myPots;
     }
 
+    @Override
+    public void finishParticipation(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow( () ->
+                new NotFoundEntityException("member Id:", memberId.toString())
+        );
+
+        member.setParticipatingPotId(0);
+        memberRepository.saveAndFlush(member);
+    }
+
 }

@@ -81,8 +81,21 @@ public class TaxiPotController {
 
         return ResultResponse.builder()
                 .code(HttpStatus.OK.value())
-                .message("탑승 가능한 pot 조회")
+                .message("택시 팟 참여 내역 조회")
                 .data(myPots)
+                .build();
+    }
+
+    @GetMapping("/finish")
+    public ResultResponse finishParticipation(HttpServletRequest request) {
+        String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
+        TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
+
+        memberService.finishParticipation(tokenInfoVo.getMemberId());
+
+        return ResultResponse.builder()
+                .code(HttpStatus.OK.value())
+                .message("팟 참여 완료")
                 .build();
     }
 

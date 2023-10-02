@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/participation")
 public class ParticipationController {
 
-    private final TaxiPotService taxiPotService;
     private final ParticipationService participationService;
-    private final MemberService memberService;
     private final JwtService jwtService;
 
     @PostMapping
