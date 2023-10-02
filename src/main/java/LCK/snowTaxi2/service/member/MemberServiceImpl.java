@@ -103,13 +103,15 @@ public class MemberServiceImpl implements MemberService {
 
         for (Participation participation: member.getParticipations()){
             TaxiPot taxiPot = participation.getTaxiPot();
-            myPots.add(MyPotsResponseDto.builder()
-                    .id(taxiPot.getId())
-                    .headCount(taxiPot.getHeadCount())
-                    .ridingTime(taxiPot.getRidingTime())
-                    .ridingDate(taxiPot.getRidingDate())
-                    .build()
-            );
+            if (member.getParticipatingPotId() != taxiPot.getId()) {
+                myPots.add(MyPotsResponseDto.builder()
+                        .id(taxiPot.getId())
+                        .headCount(taxiPot.getHeadCount())
+                        .ridingTime(taxiPot.getRidingTime())
+                        .ridingDate(taxiPot.getRidingDate())
+                        .build()
+                );
+            }
         }
 
         return myPots;
