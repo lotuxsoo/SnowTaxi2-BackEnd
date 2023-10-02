@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Builder
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResultResponse {
 
     private int code;

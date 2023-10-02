@@ -41,7 +41,7 @@ public class TaxiPotServiceImpl implements TaxiPotService {
 
     @Override
     @Transactional
-    public List<TaxiPotResponseDto> getTodayPots(Departure departure, Long memberId) {
+    public List<TaxiPotResponseDto> getTodayValidPots(Departure departure, Long memberId) {
         List<TaxiPot> pots = taxiPotRepository.getTaxiPotByRidingDateAndDeparture(LocalDate.now(), departure);
 
         List<TaxiPotResponseDto> response = new ArrayList<>();
@@ -57,6 +57,29 @@ public class TaxiPotServiceImpl implements TaxiPotService {
                         .headCount(pot.getHeadCount())
                         .ridingTime(pot.getRidingTime())
                         .isParticipating(member.getParticipatingPotId() == pot.getId())
+                        .build()
+                );
+            }
+        }
+
+        Collections.sort(response);
+        return response;
+    }
+
+    @Override
+    @Transactional
+    public List<TaxiPotResponseDto> getTodayPots(Departure departure) {
+        List<TaxiPot> pots = taxiPotRepository.getTaxiPotByRidingDateAndDeparture(LocalDate.now(), departure);
+
+        List<TaxiPotResponseDto> response = new ArrayList<>();
+
+        for (TaxiPot pot : pots) {
+            if (pot.getRidingTime().isAfter(LocalTime.now().plusMinutes(3))){
+                response.add( TaxiPotResponseDto.builder()
+                        .id(pot.getId())
+                        .headCount(pot.getHeadCount())
+                        .ridingTime(pot.getRidingTime())
+                        .isParticipating(false)
                         .build()
                 );
             }
