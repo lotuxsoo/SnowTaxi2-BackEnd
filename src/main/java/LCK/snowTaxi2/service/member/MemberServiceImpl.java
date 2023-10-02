@@ -1,14 +1,20 @@
 package LCK.snowTaxi2.service.member;
 
 import LCK.snowTaxi2.domain.Member;
+import LCK.snowTaxi2.domain.Participation;
+import LCK.snowTaxi2.domain.pot.TaxiPot;
 import LCK.snowTaxi2.dto.member.LoginResponseDto;
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
+import LCK.snowTaxi2.dto.pot.MyPotsResponseDto;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -85,6 +91,28 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByEmail(dto.getEmail());
         member.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         memberRepository.saveAndFlush(member);
+    }
+
+    @Override
+    public List<MyPotsResponseDto> getMyPots(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow( () ->
+                new NotFoundEntityException("member Id:", memberId.toString())
+        );
+
+        List<MyPotsResponseDto> myPots = new ArrayList<>();
+
+        for (Participation participation: member.getParticipations()){
+            TaxiPot taxiPot = participation.getTaxiPot();
+            myPots.add(MyPotsResponseDto.builder()
+                    .id(taxiPot.getId())
+                    .headCount(taxiPot.getHeadCount())
+                    .ridingTime(taxiPot.getRidingTime())
+                    .ridingDate(taxiPot.getRidingDate())
+                    .build()
+            );
+        }
+
+        return myPots;
     }
 
 }
