@@ -3,7 +3,10 @@ package LCK.snowTaxi2.service.member;
 import LCK.snowTaxi2.domain.Member;
 import LCK.snowTaxi2.dto.member.LoginResponseDto;
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
+import LCK.snowTaxi2.dto.pot.MyPotsResponseDto;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface MemberService {
@@ -28,5 +31,11 @@ public interface MemberService {
 
     // 비밀번호 변경
     public void changePassword(MemberRequestDto dto);
+
+    // 참여 내역 조회
+    public List<MyPotsResponseDto> getMyPots(Long memberId);
+
+    // 참여 완료하기 (나가기와 다름)
+    public void finishParticipation(Long memberId);
 
 }
