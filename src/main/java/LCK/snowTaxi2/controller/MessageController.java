@@ -9,10 +9,7 @@ import LCK.snowTaxi2.service.chat.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 
 import java.util.List;
@@ -21,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MessageController {
 
-    private final SimpMessageSendingOperations sendingOperations;
     private final MessageService messageService;
 
     @MessageMapping("/chat")
@@ -52,5 +48,8 @@ public class MessageController {
                 .build();
 
     }
+
+    @PostMapping("/chatroom/inout")
+    public void enterChatRoom(@RequestBody MessageRequestDto messageRequestDto) { messageService.send(messageRequestDto); }
 
 }

@@ -52,7 +52,7 @@ public class ParticipationServiceImpl implements ParticipationService {
 
     @Override
     @Transactional
-    public void delete(Long memberId) {
+    public long delete(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
                 new NotFoundEntityException("member id:", memberId.toString())
         );
@@ -70,5 +70,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         if (taxiPot.getParticipations().size() == 0) {
             taxiPotService.delete(taxiPotId);
         }
+
+        return taxiPotId;
     }
 }
