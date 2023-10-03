@@ -13,7 +13,7 @@ public class MyPotsResponseDto {
 
     private long id;
 
-    @JsonFormat(pattern = "yyyy.MM.dd")
+    @JsonFormat(pattern = "yyyy.MM.dd (E)")
     private LocalDate ridingDate;
 
     @JsonFormat(pattern = "a hh:mm")

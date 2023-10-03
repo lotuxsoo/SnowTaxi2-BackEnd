@@ -2,6 +2,7 @@ package LCK.snowTaxi2.controller;
 
 import LCK.snowTaxi2.domain.chat.MessageType;
 import LCK.snowTaxi2.dto.ResultResponse;
+import LCK.snowTaxi2.dto.chat.HistoryResponseDto;
 import LCK.snowTaxi2.dto.chat.MessageRequestDto;
 import LCK.snowTaxi2.dto.chat.MessageResponseDto;
 import LCK.snowTaxi2.service.chat.MessageService;
@@ -39,4 +40,17 @@ public class MessageController {
                 .build();
 
     }
+
+    @GetMapping("/history")
+    public ResultResponse getHistoryDetail(@RequestParam long roomId) {
+        HistoryResponseDto responseDto = messageService.getHistoryDetail(roomId);
+
+        return ResultResponse.builder()
+                .code(HttpStatus.OK.value())
+                .message("전에 참여했던 팟의 채팅 메시지 조회")
+                .data(responseDto)
+                .build();
+
+    }
+
 }
