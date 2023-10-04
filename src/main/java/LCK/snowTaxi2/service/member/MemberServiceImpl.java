@@ -34,15 +34,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void setParticipatingPotId(Long memberId, long taxiPotId) {
-        Member member = memberRepository.findById(memberId).orElseThrow( () ->
-                new NotFoundEntityException("member Id:", memberId.toString())
-        );
-        member.setParticipatingPotId(taxiPotId);
-        memberRepository.saveAndFlush(member);
-    }
-
-    @Override
     public long getParticipatingPotId(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
                 new NotFoundEntityException("member Id:", memberId.toString())
@@ -124,6 +115,7 @@ public class MemberServiceImpl implements MemberService {
         );
 
         member.setParticipatingPotId(0);
+        member.setRidingTime(null);
         memberRepository.saveAndFlush(member);
     }
 

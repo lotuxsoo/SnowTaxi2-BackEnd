@@ -51,12 +51,15 @@ public class ParticipationController {
         TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
 
         long potId = participationService.delete(tokenInfoVo.getMemberId());
-        messageService.send(MessageRequestDto.builder()
-                .roomId(potId)
-                .sender(tokenInfoVo.getNickname())
-                .type("OUT")
-                .build()
-        );
+
+        if (potId != 0) {
+            messageService.send(MessageRequestDto.builder()
+                    .roomId(potId)
+                    .sender(tokenInfoVo.getNickname())
+                    .type("OUT")
+                    .build()
+            );
+        }
 
         return ResultResponse.builder()
                 .code(HttpStatus.CREATED.value())
