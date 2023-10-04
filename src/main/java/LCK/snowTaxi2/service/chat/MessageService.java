@@ -3,8 +3,10 @@ package LCK.snowTaxi2.service.chat;
 import LCK.snowTaxi2.domain.chat.Message;
 import LCK.snowTaxi2.domain.chat.MessageType;
 import LCK.snowTaxi2.domain.pot.TaxiPot;
+import LCK.snowTaxi2.dto.chat.HistoryResponseDto;
 import LCK.snowTaxi2.dto.chat.MessageRequestDto;
 import LCK.snowTaxi2.dto.chat.MessageResponseDto;
+import LCK.snowTaxi2.dto.pot.MyPotsResponseDto;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MessageRepository;
 import LCK.snowTaxi2.repository.TaxiPotRepository;
@@ -34,12 +36,12 @@ public class MessageService {
             content = messageRequestDto.getSender() + "님이 나갔습니다.";
         }
 
-        saveMessage(messageRequestDto.getType(), messageRequestDto.getRoomId(), content, messageRequestDto.getSender());
-        sendingOperations.convertAndSend("/sub/chatroom/" + messageRequestDto.getRoomId(), messageRequestDto);
+        MessageResponseDto responseDto = saveMessage(messageRequestDto.getType(), messageRequestDto.getRoomId(), content, messageRequestDto.getSender());
+        sendingOperations.convertAndSend("/sub/chatroom/" + messageRequestDto.getRoomId(), responseDto);
     }
 
 
-    public void saveMessage(String type, Long roomId, String content, String sender) {
+    public MessageResponseDto saveMessage(String type, Long roomId, String content, String sender) {
         TaxiPot taxiPot = taxiPotRepository.findById(roomId).orElseThrow( () ->
                 new NotFoundEntityException("taxiPot Id:", roomId.toString())
         );
@@ -53,6 +55,13 @@ public class MessageService {
                         .build();
 
         messageRepository.save(message);
+
+        return MessageResponseDto.builder()
+                .sentTime(message.getSentTime())
+                .content(message.getContent())
+                .sender(message.getSender())
+                .type(message.getType())
+                .build();
     }
 
     public List<MessageResponseDto> getChats(Long roomId) {
@@ -60,6 +69,30 @@ public class MessageService {
                 new NotFoundEntityException("taxiPot Id:", roomId.toString())
         );
 
+        return getMessages(taxiPot);
+    }
+
+    public HistoryResponseDto getHistoryDetail(Long roomId) {
+        TaxiPot taxiPot = taxiPotRepository.findById(roomId).orElseThrow( () ->
+                new NotFoundEntityException("taxiPot Id:", roomId.toString())
+        );
+
+        List<MessageResponseDto> messages = getMessages(taxiPot);
+
+        MyPotsResponseDto pot = MyPotsResponseDto.builder()
+                .id(taxiPot.getId())
+                .ridingDate(taxiPot.getRidingDate())
+                .ridingTime(taxiPot.getRidingTime())
+                .headCount(taxiPot.getHeadCount())
+                .build();
+
+        return HistoryResponseDto.builder()
+                .chats(messages)
+                .pot(pot)
+                .build();
+    }
+
+    List<MessageResponseDto> getMessages(TaxiPot taxiPot) {
         List<MessageResponseDto> messages = new ArrayList<>();
 
         for (Message message: taxiPot.getChatMessages()) {

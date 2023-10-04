@@ -5,6 +5,7 @@ import LCK.snowTaxi2.dto.ResultResponse;
 import LCK.snowTaxi2.dto.member.LoginResponseDto;
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
 import LCK.snowTaxi2.dto.member.MemberResponseDto;
+import LCK.snowTaxi2.dto.pot.TaxiPotInfo;
 import LCK.snowTaxi2.jwt.TokenInfoVo;
 import LCK.snowTaxi2.jwt.JwtService;
 import LCK.snowTaxi2.service.member.MemberService;
@@ -55,7 +56,7 @@ public class MemberController {
             Member loginMember = loginResponseDto.getMember();
 
             memberResponseDto = MemberResponseDto.builder()
-                    .participatingPotId(loginMember.getParticipatingPotId())
+                    .potInfo(new TaxiPotInfo(loginMember.getParticipatingPotId(), loginMember.getRidingTime()))
                     .email(loginMember.getEmail())
                     .nickname(loginMember.getNickname())
                     .build();

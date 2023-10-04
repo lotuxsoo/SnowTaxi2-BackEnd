@@ -3,11 +3,15 @@ package LCK.snowTaxi2.service.pot;
 import LCK.snowTaxi2.domain.Member;
 import LCK.snowTaxi2.domain.pot.Departure;
 import LCK.snowTaxi2.domain.pot.TaxiPot;
+import LCK.snowTaxi2.dto.pot.TaxiPotInfo;
 import LCK.snowTaxi2.dto.pot.TaxiPotResponseDto;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
 import LCK.snowTaxi2.repository.TaxiPotRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -93,23 +98,6 @@ public class TaxiPotServiceImpl implements TaxiPotService {
     @Transactional
     public TaxiPotResponseDto findParticipatingPot(Member member) {
         return null;
-    }
-
-    @Override
-    @Transactional
-    public void changeHeadCount(int add, Long id) {
-        TaxiPot taxiPot = taxiPotRepository.findById(id).orElseThrow( () ->
-                new NotFoundEntityException("taxiPot id:", id.toString())
-        );
-
-        taxiPot.setHeadCount(taxiPot.getHeadCount() + add);
-        taxiPotRepository.saveAndFlush(taxiPot);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        taxiPotRepository.deleteById(id);
     }
 
 }

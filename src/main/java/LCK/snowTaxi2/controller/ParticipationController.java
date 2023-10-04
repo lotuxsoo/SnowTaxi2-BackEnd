@@ -1,9 +1,11 @@
 package LCK.snowTaxi2.controller;
 
 import LCK.snowTaxi2.dto.ResultResponse;
+import LCK.snowTaxi2.dto.chat.MessageRequestDto;
 import LCK.snowTaxi2.dto.pot.TaxiPotRequestDto;
 import LCK.snowTaxi2.jwt.JwtService;
 import LCK.snowTaxi2.jwt.TokenInfoVo;
+import LCK.snowTaxi2.service.chat.MessageService;
 import LCK.snowTaxi2.service.member.MemberService;
 import LCK.snowTaxi2.service.participation.ParticipationService;
 import LCK.snowTaxi2.service.pot.TaxiPotService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class ParticipationController {
 
     private final ParticipationService participationService;
+    private final MessageService messageService;
     private final JwtService jwtService;
 
     @PostMapping
@@ -26,6 +29,14 @@ public class ParticipationController {
         TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
 
         boolean result = participationService.create(tokenInfoVo.getMemberId(), potId);
+        if (result) {
+            messageService.send(MessageRequestDto.builder()
+                    .roomId(potId)
+                    .sender(tokenInfoVo.getNickname())
+                    .type("IN")
+                    .build()
+            );
+        }
 
         return ResultResponse.builder()
                 .code(HttpStatus.CREATED.value())
@@ -39,7 +50,16 @@ public class ParticipationController {
         String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
         TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
 
-        participationService.delete(tokenInfoVo.getMemberId());
+        long potId = participationService.delete(tokenInfoVo.getMemberId());
+
+        if (potId != 0) {
+            messageService.send(MessageRequestDto.builder()
+                    .roomId(potId)
+                    .sender(tokenInfoVo.getNickname())
+                    .type("OUT")
+                    .build()
+            );
+        }
 
         return ResultResponse.builder()
                 .code(HttpStatus.CREATED.value())

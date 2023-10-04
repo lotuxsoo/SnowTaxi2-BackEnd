@@ -8,6 +8,6 @@ public interface ParticipationService {
     boolean create(Long memberId, Long taxiPotId);
 
     // 현재 참여중인 팟 나가기 (방장이 나간 경우 그 다음에 입장한 사람이 방장이 되도록, headCount - 1)
-    void delete(Long memberId);
+    long delete(Long memberId);
 
 }

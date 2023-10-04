@@ -7,8 +7,6 @@ import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
 import LCK.snowTaxi2.repository.ParticipationRepository;
 import LCK.snowTaxi2.repository.TaxiPotRepository;
-import LCK.snowTaxi2.service.member.MemberService;
-import LCK.snowTaxi2.service.pot.TaxiPotService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +18,6 @@ public class ParticipationServiceImpl implements ParticipationService {
     private final ParticipationRepository participationRepository;
     private final MemberRepository memberRepository;
     private final TaxiPotRepository taxiPotRepository;
-    private final TaxiPotService taxiPotService;
-    private final MemberService memberService;
 
     @Override
     @Transactional
@@ -41,8 +37,13 @@ public class ParticipationServiceImpl implements ParticipationService {
                     .build();
 
             participationRepository.save(participation);
-            taxiPotService.changeHeadCount(1, taxiPotId);
-            memberService.setParticipatingPotId(memberId, taxiPotId);
+
+            member.setParticipatingPotId(taxiPotId);
+            member.setRidingTime(taxiPot.getRidingTime());
+            memberRepository.saveAndFlush(member);
+
+            taxiPot.setHeadCount(taxiPot.getHeadCount() + 1);
+            taxiPotRepository.saveAndFlush(taxiPot);
 
             return true;
         } else {
@@ -52,7 +53,7 @@ public class ParticipationServiceImpl implements ParticipationService {
 
     @Override
     @Transactional
-    public void delete(Long memberId) {
+    public long delete(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow( () ->
                 new NotFoundEntityException("member id:", memberId.toString())
         );
@@ -64,11 +65,19 @@ public class ParticipationServiceImpl implements ParticipationService {
         );
 
         participationRepository.deleteParticipationByTaxiPotAndMember(taxiPot, member);
-        memberService.setParticipatingPotId(memberId, 0);
-        taxiPotService.changeHeadCount(-1, taxiPotId);
+
+        member.setParticipatingPotId(0);
+        member.setRidingTime(null);
+        memberRepository.saveAndFlush(member);
+
+        taxiPot.setHeadCount(taxiPot.getHeadCount() - 1);
+        taxiPotRepository.saveAndFlush(taxiPot);
 
         if (taxiPot.getParticipations().size() == 0) {
-            taxiPotService.delete(taxiPotId);
+            taxiPotRepository.deleteById(taxiPotId);
+            return 0;
         }
+
+        return taxiPotId;
     }
 }

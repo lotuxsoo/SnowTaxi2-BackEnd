@@ -14,6 +14,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "chat_message")
+@ToString
 public class Message {
 
     @Id
@@ -32,7 +33,7 @@ public class Message {
 
     private String content;
 
-    @JsonFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "a hh:mm")
     private LocalTime sentTime;
 
 }

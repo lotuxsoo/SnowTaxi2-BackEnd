@@ -3,6 +3,7 @@ package LCK.snowTaxi2.controller;
 import LCK.snowTaxi2.domain.pot.Departure;
 import LCK.snowTaxi2.dto.ResultResponse;
 import LCK.snowTaxi2.dto.pot.MyPotsResponseDto;
+import LCK.snowTaxi2.dto.pot.TaxiPotInfo;
 import LCK.snowTaxi2.dto.pot.TaxiPotRequestDto;
 import LCK.snowTaxi2.dto.pot.TaxiPotResponseDto;
 import LCK.snowTaxi2.jwt.JwtService;
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
