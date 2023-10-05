@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @Builder
 public class MessageResponseDto {
 
-    @JsonFormat(pattern = "a hh:mm")
+    @JsonFormat(pattern = "a hh:mm", timezone = "Asia/Seoul")
     private LocalTime sentTime;
 
     private String sender;

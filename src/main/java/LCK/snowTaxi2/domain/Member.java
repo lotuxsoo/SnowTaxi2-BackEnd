@@ -1,6 +1,5 @@
 package LCK.snowTaxi2.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -13,10 +13,10 @@ public class MyPotsResponseDto {
 
     private long id;
 
-    @JsonFormat(pattern = "yyyy.MM.dd (E)")
+    @JsonFormat(pattern = "yyyy.MM.dd (E)", timezone = "Asia/Seoul")
     private LocalDate ridingDate;
 
-    @JsonFormat(pattern = "a hh:mm")
+    @JsonFormat(pattern = "a hh:mm", timezone = "Asia/Seoul")
     private LocalTime ridingTime;
 
     private int headCount;

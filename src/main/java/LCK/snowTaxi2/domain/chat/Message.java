@@ -33,7 +33,7 @@ public class Message {
 
     private String content;
 
-    @JsonFormat(pattern = "a hh:mm")
+    @JsonFormat(pattern = "a hh:mm", timezone = "Asia/Seoul")
     private LocalTime sentTime;
 
 }
