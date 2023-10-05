@@ -95,21 +95,4 @@ public class TaxiPotServiceImpl implements TaxiPotService {
         return null;
     }
 
-    @Override
-    @Transactional
-    public void changeHeadCount(int add, Long id) {
-        TaxiPot taxiPot = taxiPotRepository.findById(id).orElseThrow( () ->
-                new NotFoundEntityException("taxiPot id:", id.toString())
-        );
-
-        taxiPot.setHeadCount(taxiPot.getHeadCount() + add);
-        taxiPotRepository.saveAndFlush(taxiPot);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        taxiPotRepository.deleteById(id);
-    }
-
 }

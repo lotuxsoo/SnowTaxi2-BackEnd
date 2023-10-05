@@ -1,6 +1,5 @@
 package LCK.snowTaxi2.controller;
 
-import LCK.snowTaxi2.domain.chat.MessageType;
 import LCK.snowTaxi2.dto.ResultResponse;
 import LCK.snowTaxi2.dto.chat.HistoryResponseDto;
 import LCK.snowTaxi2.dto.chat.MessageRequestDto;
@@ -8,7 +7,6 @@ import LCK.snowTaxi2.dto.chat.MessageResponseDto;
 import LCK.snowTaxi2.service.chat.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 

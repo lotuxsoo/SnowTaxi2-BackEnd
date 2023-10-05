@@ -1,6 +1,5 @@
 package LCK.snowTaxi2.service.member;
 
-import LCK.snowTaxi2.domain.Member;
 import LCK.snowTaxi2.dto.member.LoginResponseDto;
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
 import LCK.snowTaxi2.dto.pot.MyPotsResponseDto;
@@ -22,9 +21,6 @@ public interface MemberService {
 
     // 유효한 이메일인지 확인 (이미 가입했는지)
     public boolean isMemberEmail(String email);
-
-    // 참여중인 팟 아이디 변경
-    public void setParticipatingPotId(Long memberId, long taxiPotId);
 
     // 참여중인 팟 아이디 조회
     public long getParticipatingPotId(Long memberId);

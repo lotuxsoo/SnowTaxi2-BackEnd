@@ -23,12 +23,4 @@ public interface TaxiPotService {
     // 현재 참여중인 팟 정보 불러오기
     TaxiPotResponseDto findParticipatingPot(Member member);
 
-    // 참여 기록 조회
-
-    // 팟에 참여하고 있는 인원 변경 ( +add )
-    void changeHeadCount(int add, Long id);
-
-    // 생성한 팟 삭제 (시간 안지난 팟만 삭제 가능하도록)
-    void delete(Long id);
-
 }

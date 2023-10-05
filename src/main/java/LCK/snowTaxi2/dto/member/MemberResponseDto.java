@@ -1,5 +1,6 @@
 package LCK.snowTaxi2.dto.member;
 
+import LCK.snowTaxi2.dto.pot.TaxiPotInfo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -7,7 +8,7 @@ import lombok.Getter;
 @Builder
 public class MemberResponseDto {
 
-    private long participatingPotId;
+    private TaxiPotInfo potInfo;
 
     private String email;
 
