@@ -12,7 +12,7 @@ public class TaxiPotInfo {
 
     private long potId;
 
-    @JsonFormat(pattern = "a hh:mm")
+    @JsonFormat(pattern = "a hh:mm", timezone = "Asia/Seoul")
     private LocalTime ridingTime;
 
 }
