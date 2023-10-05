@@ -2,13 +2,10 @@ package LCK.snowTaxi2.controller;
 
 import LCK.snowTaxi2.dto.ResultResponse;
 import LCK.snowTaxi2.dto.chat.MessageRequestDto;
-import LCK.snowTaxi2.dto.pot.TaxiPotRequestDto;
 import LCK.snowTaxi2.jwt.JwtService;
 import LCK.snowTaxi2.jwt.TokenInfoVo;
 import LCK.snowTaxi2.service.chat.MessageService;
-import LCK.snowTaxi2.service.member.MemberService;
 import LCK.snowTaxi2.service.participation.ParticipationService;
-import LCK.snowTaxi2.service.pot.TaxiPotService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

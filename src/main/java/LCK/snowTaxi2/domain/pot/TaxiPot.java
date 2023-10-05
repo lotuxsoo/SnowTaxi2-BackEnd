@@ -31,7 +31,7 @@ public class TaxiPot {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate ridingDate;
 
-    @JsonFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "a hh:mm")
     private LocalTime ridingTime;
 
     private int headCount;

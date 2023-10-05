@@ -1,6 +1,5 @@
 package LCK.snowTaxi2.service.member;
 
-import LCK.snowTaxi2.domain.Member;
 import LCK.snowTaxi2.dto.member.LoginResponseDto;
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
 import LCK.snowTaxi2.dto.pot.MyPotsResponseDto;

@@ -14,7 +14,7 @@ public class TaxiPotResponseDto implements Comparable<TaxiPotResponseDto> {
 
     private long id;
 
-    @JsonFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "a hh:mm")
     private LocalTime ridingTime;
 
     private int headCount;
