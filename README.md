@@ -9,7 +9,7 @@ SnowTaxi에 가입해 함께 택시 탈 학우들을 모아보세요!
   <img src="https://github.com/SM-LCK/SnowTaxi2-BackEnd/assets/62925109/14fd97fa-9a18-4adc-b158-ac4872f2e257" align="center" width="32%">
 </p>
 
-## 🤼‍♂️팀
+## 🤼‍♂️팀 LCK
 - 김영경
 - 이가은
 - 최수연
@@ -23,8 +23,8 @@ SnowTaxi에 가입해 함께 택시 탈 학우들을 모아보세요!
 ### 숙명메일로 로그인 / 회원가입
 - 회원가입 절차에서 학교 이메일(sookmyung.ac.kr)로 인증을 받아 같은 학교 학우간의 서비스임을 보장합니다.
 <p align="center">
-  <img src="https://github.com/SM-LCK/SnowTaxi2-BackEnd/assets/62925109/2f045e8c-07ab-4362-b19f-c61efe231f53" align="center" width="50%">
-  <img src="https://github.com/SM-LCK/SnowTaxi2-BackEnd/assets/62925109/be318c1d-782e-4421-aba8-3d2e74bdff70" align="center" width="40%">
+  <img src="https://github.com/SM-LCK/SnowTaxi2-BackEnd/assets/62925109/2f045e8c-07ab-4362-b19f-c61efe231f53" align="center" width="43%">
+  <img src="https://github.com/SM-LCK/SnowTaxi2-BackEnd/assets/62925109/be318c1d-782e-4421-aba8-3d2e74bdff70" align="center" width="34%">
  
 </p>
 
@@ -43,3 +43,10 @@ SnowTaxi에 가입해 함께 택시 탈 학우들을 모아보세요!
 <p align="center">
   <img src="https://github.com/SM-LCK/SnowTaxi2-BackEnd/assets/62925109/92af5b0d-4f53-44e7-86de-fec38e4dab68" align="center" width="80%">
 </p>
+
+### 참여 내역
+- 참여 완료한 팟들의 채팅들을 참여 완료 후에도 참여 내역에서 확인할 수 있습니다.
+<p align="center">
+  <img src="https://github.com/SM-LCK/SnowTaxi2-BackEnd/assets/62925109/4f38fd25-3c50-49c7-ae9e-4dbc83a8d8e3" align="center" width="40%">
+</p>
+
