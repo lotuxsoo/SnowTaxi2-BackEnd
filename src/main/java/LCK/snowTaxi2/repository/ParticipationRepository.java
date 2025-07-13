@@ -1,9 +1,9 @@
 package LCK.snowTaxi2.repository;
 
-import LCK.snowTaxi2.domain.Member;
-import LCK.snowTaxi2.domain.Participation;
-import LCK.snowTaxi2.domain.pot.TaxiPot;
 import org.springframework.data.jpa.repository.JpaRepository;
+import LCK.snowTaxi2.domain.Participation;
+import LCK.snowTaxi2.domain.member.Member;
+import LCK.snowTaxi2.domain.pot.TaxiPot;
 
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
 

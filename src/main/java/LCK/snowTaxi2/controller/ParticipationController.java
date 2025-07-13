@@ -1,5 +1,6 @@
 package LCK.snowTaxi2.controller;
 
+import LCK.snowTaxi2.domain.member.SessionUser;
 import LCK.snowTaxi2.dto.ResultResponse;
 import LCK.snowTaxi2.dto.chat.MessageRequestDto;
 import LCK.snowTaxi2.jwt.JwtService;
@@ -18,23 +19,20 @@ public class ParticipationController {
 
     private final ParticipationService participationService;
     private final MessageService messageService;
-    private final JwtService jwtService;
 
     @PostMapping
-    public ResultResponse participate(HttpServletRequest request, @RequestParam long potId) {
-        String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
-        TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
+    public ResultResponse participate(@SessionAttribute("user") SessionUser user, @RequestParam long potId) {
+        boolean result = participationService.create(user.getUserId(), potId);
 
-        boolean result = participationService.create(tokenInfoVo.getMemberId(), potId);
         if (result) {
+            // sender 정보는 세션에서 가져온 사용자 닉네임 등을 사용
             messageService.send(MessageRequestDto.builder()
                     .roomId(potId)
-                    .sender(tokenInfoVo.getNickname())
+                    .sender(user.getNickname())
                     .type("IN")
                     .build()
             );
         }
-
         return ResultResponse.builder()
                 .code(HttpStatus.CREATED.value())
                 .message("팟 참여하기")
@@ -43,16 +41,13 @@ public class ParticipationController {
     }
 
     @DeleteMapping
-    public ResultResponse delete(HttpServletRequest request) {
-        String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
-        TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
-
-        long potId = participationService.delete(tokenInfoVo.getMemberId());
+    public ResultResponse delete(@SessionAttribute("user") SessionUser user) {
+        long potId = participationService.delete(user.getUserId());
 
         if (potId != 0) {
             messageService.send(MessageRequestDto.builder()
                     .roomId(potId)
-                    .sender(tokenInfoVo.getNickname())
+                    .sender(user.getNickname())
                     .type("OUT")
                     .build()
             );
@@ -63,5 +58,4 @@ public class ParticipationController {
                 .message("팟 나가기")
                 .build();
     }
-
 }

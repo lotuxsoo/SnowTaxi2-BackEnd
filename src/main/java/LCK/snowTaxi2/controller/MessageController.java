@@ -1,5 +1,6 @@
 package LCK.snowTaxi2.controller;
 
+import LCK.snowTaxi2.domain.member.SessionUser;
 import LCK.snowTaxi2.dto.ResultResponse;
 import LCK.snowTaxi2.dto.chat.HistoryResponseDto;
 import LCK.snowTaxi2.dto.chat.MessageRequestDto;
@@ -36,7 +37,7 @@ public class MessageController {
     }
 
     @GetMapping("/history")
-    public ResultResponse getHistoryDetail(@RequestParam long roomId) {
+    public ResultResponse getHistoryDetail(@SessionAttribute("user") SessionUser user, @RequestParam long roomId) {
         HistoryResponseDto responseDto = messageService.getHistoryDetail(roomId);
 
         return ResultResponse.builder()

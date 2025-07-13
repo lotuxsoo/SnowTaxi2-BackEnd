@@ -1,9 +1,9 @@
 package LCK.snowTaxi2;
 
-import LCK.snowTaxi2.domain.Member;
-import LCK.snowTaxi2.dto.ResultResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import LCK.snowTaxi2.domain.member.Member;
+import LCK.snowTaxi2.dto.ResultResponse;
 
 @RestController
 public class HelloController {

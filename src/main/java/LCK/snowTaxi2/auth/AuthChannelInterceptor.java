@@ -23,12 +23,6 @@ public class AuthChannelInterceptor implements ChannelInterceptor {
             // 이 정보는 WebSocket 핸드셰이크 시 Http 세션에서 복사되어야 함
             SessionUser sessionUser = Optional.ofNullable((SessionUser) accessor.getSessionAttributes().get("user"))
                     .orElseThrow(() -> new AccessDeniedException("WebSocket: 유효한 사용자 정보가 없습니다."));
-
-            // 필요하다면 여기서도 역할을 검사할 수 있음
-            // 예: 특정 destination(경로)은 STUDENT만 메시지를 보낼 수 있도록 제어
-            // if ("/topic/admin".equals(accessor.getDestination()) && sessionUser.getRole() != Role.STUDENT) {
-            //     throw new AccessDeniedException("해당 토픽에 메시지를 보낼 권한이 없습니다.");
-            // }
         }
 
         return message;

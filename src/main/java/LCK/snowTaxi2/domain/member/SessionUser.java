@@ -9,5 +9,6 @@ import lombok.Getter;
 public class SessionUser implements Serializable {
     private Long userId;
     private String email;
+    private String nickname;
     private Role role;
 }

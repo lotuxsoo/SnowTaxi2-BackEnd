@@ -1,7 +1,8 @@
 package LCK.snowTaxi2.service.participation;
 
-import LCK.snowTaxi2.domain.Member;
+import org.springframework.stereotype.Service;
 import LCK.snowTaxi2.domain.Participation;
+import LCK.snowTaxi2.domain.member.Member;
 import LCK.snowTaxi2.domain.pot.TaxiPot;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
@@ -9,7 +10,6 @@ import LCK.snowTaxi2.repository.ParticipationRepository;
 import LCK.snowTaxi2.repository.TaxiPotRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

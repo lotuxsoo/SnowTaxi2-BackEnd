@@ -1,6 +1,6 @@
 package LCK.snowTaxi2.dto.member;
 
-import LCK.snowTaxi2.domain.Member;
+import LCK.snowTaxi2.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 

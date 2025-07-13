@@ -1,6 +1,6 @@
 package LCK.snowTaxi2.jwt;
 
-import LCK.snowTaxi2.domain.Member;
+import LCK.snowTaxi2.domain.member.Member;
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
 import LCK.snowTaxi2.repository.MemberRepository;
 import com.auth0.jwt.JWT;
@@ -8,14 +8,13 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.Optional;
 
 @Slf4j
 @Getter

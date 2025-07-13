@@ -1,5 +1,6 @@
 package LCK.snowTaxi2.controller;
 
+import LCK.snowTaxi2.domain.member.SessionUser;
 import LCK.snowTaxi2.domain.pot.Departure;
 import LCK.snowTaxi2.dto.ResultResponse;
 import LCK.snowTaxi2.dto.pot.MyPotsResponseDto;
@@ -28,19 +29,16 @@ public class TaxiPotController {
     private final TaxiPotService taxiPotService;
     private final ParticipationService participationService;
     private final MemberService memberService;
-    private final JwtService jwtService;
 
     @PostMapping("/new")
-    public ResultResponse create(HttpServletRequest request, @RequestBody TaxiPotRequestDto requestDto) {
-        String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
-        TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
-
-        boolean canCreate = (memberService.getParticipatingPotId(tokenInfoVo.getMemberId()) == 0);
+    public ResultResponse create(@SessionAttribute("user") SessionUser user,
+                                 @RequestBody TaxiPotRequestDto requestDto) {
+        boolean canCreate = (memberService.getParticipatingPotId(user.getUserId()) == 0);
         long potId = 0;
 
         if (canCreate) {
-            potId = taxiPotService.create(requestDto.getDeparture(), requestDto.getRidingTime());
-            participationService.create(tokenInfoVo.getMemberId(), potId);
+            potId = taxiPotService.create(user.getUserId(), requestDto.getDeparture(), requestDto.getRidingTime());
+            participationService.create(user.getUserId(), potId);
         }
 
         return ResultResponse.builder()
@@ -51,11 +49,9 @@ public class TaxiPotController {
     }
 
     @GetMapping("/valid")
-    public ResultResponse getValidPots(HttpServletRequest request, @RequestParam String departure) {
-        String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
-        TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
-
-        List<TaxiPotResponseDto> response =  taxiPotService.getTodayValidPots(Departure.valueOf(departure), tokenInfoVo.getMemberId());
+    public ResultResponse getValidPots(@SessionAttribute("user") SessionUser user, @RequestParam String departure) {
+        List<TaxiPotResponseDto> response = taxiPotService.getTodayValidPots(Departure.valueOf(departure),
+                user.getUserId());
 
         return ResultResponse.builder()
                 .code(HttpStatus.OK.value())
@@ -66,7 +62,7 @@ public class TaxiPotController {
 
     @GetMapping("/default")
     public ResultResponse getPots(@RequestParam String departure) {
-        List<TaxiPotResponseDto> response =  taxiPotService.getTodayPots(Departure.valueOf(departure));
+        List<TaxiPotResponseDto> response = taxiPotService.getTodayPots(Departure.valueOf(departure));
 
         return ResultResponse.builder()
                 .code(HttpStatus.OK.value())
@@ -76,11 +72,8 @@ public class TaxiPotController {
     }
 
     @GetMapping("/my")
-    public ResultResponse getHistory(HttpServletRequest request) {
-        String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
-        TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
-
-        List<MyPotsResponseDto> myPots = memberService.getMyPots(tokenInfoVo.getMemberId());
+    public ResultResponse getHistory(@SessionAttribute("user") SessionUser user) {
+        List<MyPotsResponseDto> myPots = memberService.getMyPots(user.getUserId());
 
         return ResultResponse.builder()
                 .code(HttpStatus.OK.value())
@@ -90,16 +83,12 @@ public class TaxiPotController {
     }
 
     @GetMapping("/finish")
-    public ResultResponse finishParticipation(HttpServletRequest request) {
-        String access_token = jwtService.extractAccessToken(request).orElseGet(() -> "");
-        TokenInfoVo tokenInfoVo = jwtService.getTokenInfo(access_token);
-
-        memberService.finishParticipation(tokenInfoVo.getMemberId());
+    public ResultResponse finishParticipation(@SessionAttribute("user") SessionUser user) {
+        memberService.finishParticipation(user.getUserId());
 
         return ResultResponse.builder()
                 .code(HttpStatus.OK.value())
                 .message("팟 참여 완료")
                 .build();
     }
-
 }

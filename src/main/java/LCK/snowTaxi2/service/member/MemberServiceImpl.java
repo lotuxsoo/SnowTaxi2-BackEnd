@@ -1,7 +1,12 @@
 package LCK.snowTaxi2.service.member;
 
-import LCK.snowTaxi2.domain.Member;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import LCK.snowTaxi2.domain.Participation;
+import LCK.snowTaxi2.domain.member.Member;
 import LCK.snowTaxi2.domain.pot.TaxiPot;
 import LCK.snowTaxi2.dto.member.LoginResponseDto;
 import LCK.snowTaxi2.dto.member.MemberRequestDto;
@@ -9,12 +14,6 @@ import LCK.snowTaxi2.dto.pot.MyPotsResponseDto;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

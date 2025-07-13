@@ -1,26 +1,20 @@
 package LCK.snowTaxi2.service.pot;
 
-import LCK.snowTaxi2.domain.Member;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.springframework.stereotype.Service;
+import LCK.snowTaxi2.domain.member.Member;
 import LCK.snowTaxi2.domain.pot.Departure;
 import LCK.snowTaxi2.domain.pot.TaxiPot;
-import LCK.snowTaxi2.dto.pot.TaxiPotInfo;
 import LCK.snowTaxi2.dto.pot.TaxiPotResponseDto;
 import LCK.snowTaxi2.exception.NotFoundEntityException;
 import LCK.snowTaxi2.repository.MemberRepository;
 import LCK.snowTaxi2.repository.TaxiPotRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +25,12 @@ public class TaxiPotServiceImpl implements TaxiPotService {
 
     @Override
     @Transactional
-    public long create(String departure, LocalTime ridingTime) {
+    public long create(Long creatorId, String departure, LocalTime ridingTime) {
+        Member creator = memberRepository.findById(creatorId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
         TaxiPot taxiPot = TaxiPot.builder()
+                .creator(creator) // 조회한 Member 객체를 creator로 설정
                 .headCount(0)
                 .departure(Departure.valueOf(departure))
                 .ridingDate(LocalDate.now())

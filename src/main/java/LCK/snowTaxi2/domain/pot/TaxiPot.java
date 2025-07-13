@@ -2,6 +2,7 @@ package LCK.snowTaxi2.domain.pot;
 
 import LCK.snowTaxi2.domain.Participation;
 import LCK.snowTaxi2.domain.chat.Message;
+import LCK.snowTaxi2.domain.member.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,6 +25,10 @@ public class TaxiPot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "taxi_pot_id")
     private long id;
+
+    @ManyToOne(fetch = FetchType.LAZY) // 하나의 멤버는 여러 택시팟을 만들 수 있음
+    @JoinColumn(name = "creator_id")   // DB에는 creator_id 라는 이름의 컬럼으로 저장
+    private Member creator;
 
     @Enumerated(EnumType.ORDINAL)
     private Departure departure;

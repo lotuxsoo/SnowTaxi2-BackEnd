@@ -1,7 +1,7 @@
 package LCK.snowTaxi2.repository;
 
-import LCK.snowTaxi2.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import LCK.snowTaxi2.domain.member.Member;
 
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
